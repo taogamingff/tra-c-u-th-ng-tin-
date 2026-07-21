@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XEoms Stalk - Tra cứu thông tin & Icon</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0b0e1a;
+            color: #e0e6f0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            background: #141a26;
+            border-radius: 28px;
+            padding: 2rem 1.8rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+            border: 1px solid #2a3346;
+            height: fit-content;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid #2f3b52;
+            padding-bottom: 1rem;
+            margin-bottom: 1.8rem;
+            color: #b7c9f0;
+        }
+
+        h1 small {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: #7e8aa8;
+            margin-left: auto;
+        }
+
+        .search-box {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            background: #1e2535;
+            padding: 1.5rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            border: 1px solid #2f3b52;
+        }
+
+        .input-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .input-group label {
+            font-weight: 500;
+            color: #b0c2e6;
+            min-width: 70px;
+        }
+
+        .input-group input {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px 18px;
+            border-radius: 40px;
+            border: none;
+            background: #0f1625;
+            color: #f0f4ff;
+            font-size: 1rem;
+            outline: 1px solid #2f3b52;
+            transition: 0.2s;
+        }
+
+        .input-group input:focus {
+            outline: 2px solid #5b7bc7;
+            background: #141c2e;
+        }
+
+        .input-group button {
+            padding: 12px 32px;
+            border: none;
+            border-radius: 40px;
+            background: #4a6bb5;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 10px rgba(74, 107, 181, 0.3);
+            white-space: nowrap;
+        }
+
+        .input-group button:hover {
+            background: #5f7fc9;
+            transform: scale(1.02);
+            box-shadow: 0 6px 14px rgba(74, 107, 181, 0.5);
+        }
+
+        .input-group button:active {
+            transform: scale(0.97);
+        }
+
+        .info-panel {
+            background: #101724;
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid #283040;
+            margin-top: 0.5rem;
+        }
+
+        .info-panel .header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .info-panel h3 {
+            color: #b7c9f0;
+            font-weight: 400;
+            letter-spacing: 0.3px;
+            border-left: 4px solid #4a6bb5;
+            padding-left: 14px;
+            margin: 0;
+        }
+
+        .translate-btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 40px;
+            background: #2a8b5a;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 4px 10px rgba(42, 139, 90, 0.3);
+        }
+
+        .translate-btn:hover {
+            background: #34a76e;
+            transform: scale(1.02);
+        }
+
+        .translate-btn:active {
+            transform: scale(0.97);
+        }
+
+        .translate-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .json-output {
+            background: #0b101e;
+            padding: 1.2rem 1.5rem;
+            border-radius: 16px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-word;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            max-height: 500px;
+            overflow-y: auto;
+            color: #c8d6f0;
+            border: 1px solid #283040;
+        }
+
+        .json-output .key {
+            color: #f5b87e;
+        }
+        .json-output .string {
+            color: #a5d6a5;
+        }
+        .json-output .number {
+            color: #7fc9f0;
+        }
+        .json-output .boolean {
+            color: #d4a0f0;
+        }
+        .json-output .null {
+            color: #e2777a;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #a0b3d6;
+        }
+
+        .error-message {
+            background: #2f1a26;
+            border-left: 6px solid #d45a6a;
+            padding: 1rem;
+            border-radius: 12px;
+            color: #f5baba;
+        }
+
+        .success-message {
+            background: #1a2f26;
+            border-left: 6px solid #5ad46a;
+            padding: 1rem;
+            border-radius: 12px;
+            color: #baf5ba;
+        }
+
+        /* ===== PHẦN ICON ===== */
+        .icon-section {
+            margin-top: 2.5rem;
+            border-top: 2px solid #2f3b52;
+            padding-top: 1.8rem;
+        }
+
+        .icon-section h2 {
+            font-size: 1.8rem;
+            font-weight: 500;
+            color: #b7c9f0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 1.5rem;
+        }
+
+        .icon-section h2 small {
+            font-size: 1rem;
+            color: #7e8aa8;
+            font-weight: 400;
+        }
+
+        .icon-search-box {
+            background: #1e2535;
+            padding: 1.5rem;
+            border-radius: 20px;
+            border: 1px solid #2f3b52;
+            margin-bottom: 1.8rem;
+        }
+
+        .icon-display {
+            background: #0b101e;
+            border-radius: 24px;
+            padding: 2rem;
+            border: 2px solid #2f3b52;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+        }
+
+        .icon-display img {
+            max-width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+            border-radius: 16px;
+            background: #141c2e;
+            padding: 10px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        .icon-display .icon-id {
+            margin-top: 1.2rem;
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: #a5d6a5;
+            background: #1a2f26;
+            padding: 0.5rem 2rem;
+            border-radius: 40px;
+            border: 1px solid #2a8b5a;
+            letter-spacing: 1px;
+        }
+
+        .icon-display .placeholder-text {
+            color: #7e8aa8;
+            font-size: 1.2rem;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .icon-display .error-message {
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Ẩn phần Base URL */
+        .hidden-url {
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 1.2rem;
+            }
+            .input-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .input-group button {
+                width: 100%;
+                justify-content: center;
+            }
+            h1 {
+                font-size: 1.6rem;
+                flex-wrap: wrap;
+            }
+            h1 small {
+                margin-left: 0;
+            }
+            .info-panel .header-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .translate-btn {
+                width: 100%;
+                text-align: center;
+            }
+            .icon-display {
+                padding: 1rem;
+                min-height: 200px;
+            }
+            .icon-display img {
+                max-height: 250px;
+            }
+            .icon-section h2 {
+                font-size: 1.4rem;
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>
+            🛰️ XEoms Stalk
+            <small>Tra cứu thông tin</small>
+        </h1>
+
+        <!-- ===== PHẦN TRA CỨU UID ===== -->
+        <div class="search-box">
+            <div class="input-group">
+                <label for="uidInput">👤 UID</label>
+                <input type="text" id="uidInput" placeholder="Nhập UID ... (VD: )" value="12334445856">
+                <button id="fetchBtn">🔍 Tra cứu</button>
+            </div>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; margin-top: 0.2rem;">
+                <label style="color: #b0c2e6; min-width: 70px;">🌏 Khu vực</label>
+                <select id="regionSelect" style="padding: 10px 18px; border-radius: 40px; background: #0f1625; color: #f0f4ff; border: 1px solid #2f3b52; outline: none; flex:1; min-width:120px;">
+                    <option value="sg" selected>🇸🇬 Singapore</option>
+                    <option value="vn">🇻🇳 Việt Nam</option>
+                    <option value="id">🇮🇩 Indonesia</option>
+                    <option value="th">🇹🇭 Thái Lan</option>
+                    <option value="my">🇲🇾 Malaysia</option>
+                    <option value="ph">🇵🇭 Philippines</option>
+                    <option value="tw">🇹🇼 Đài Loan</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Phần Base URL đã được ẩn -->
+        <div class="hidden-url" id="baseUrlDisplay"></div>
+
+        <!-- ===== KẾT QUẢ UID ===== -->
+        <div class="info-panel">
+            <div class="header-actions">
+                <h3>📦 Kết quả trả về</h3>
+                <button class="translate-btn" id="translateBtn">🌐 Dịch sang tiếng Việt</button>
+            </div>
+            <div id="responseContainer">
+                <div class="json-output" id="jsonOutput">Đang tải dữ liệu ...</div>
+            </div>
+        </div>
+
+        <!-- ===== PHẦN ICON ===== -->
+        <div class="icon-section">
+            <h2>
+                🖼️ DANH SÁCH VẬT PHẨM
+                <small>Tra cứu Icon Free Fire</small>
+            </h2>
+
+            <div class="icon-search-box">
+                <div class="input-group">
+                    <label for="iconInput">🔢 ID Item</label>
+                    <input type="text" id="iconInput" placeholder="Nhập ID Item ... (VD: )" value="901049013">
+                    <button id="fetchIconBtn">🔍 Tìm Icon</button>
+                </div>
+            </div>
+
+            <!-- Khung hiển thị Icon lớn -->
+            <div class="icon-display" id="iconDisplay">
+                <div class="placeholder-text">
+                    🖼️ Nhập ID Item và nhấn "Tìm Icon"<br>
+                    <span style="font-size: 0.9rem; color: #5a6a8a;">Ví dụ: 710049012</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // ===== PHẦN UID =====
+            const uidInput = document.getElementById('uidInput');
+            const regionSelect = document.getElementById('regionSelect');
+            const fetchBtn = document.getElementById('fetchBtn');
+            const jsonOutput = document.getElementById('jsonOutput');
+            const translateBtn = document.getElementById('translateBtn');
+            
+            let currentData = null;
+            let isTranslated = false;
+
+            // ===== PHẦN ICON =====
+            const iconInput = document.getElementById('iconInput');
+            const fetchIconBtn = document.getElementById('fetchIconBtn');
+            const iconDisplay = document.getElementById('iconDisplay');
+
+            // ---- Từ điển dịch ----
+            const translationDict = {
+                'basicInfo': 'Thông tin cơ bản',
+                'accountId': 'ID tài khoản',
+                'accountType': 'Loại tài khoản',
+                'nickname': 'Biệt danh',
+                'region': 'Khu vực',
+                'level': 'Cấp độ',
+                'exp': 'Kinh nghiệm',
+                'bannerId': 'ID Banner',
+                'headPic': 'Ảnh đại diện',
+                'rank': 'Hạng BR',
+                'rankingPoints': 'Điểm xếp hạng',
+                'role': 'Vai trò',
+                'hasElitePass': 'Có Elite Pass',
+                'badgeCnt': 'Số huy hiệu',
+                'badgeId': 'ID huy hiệu',
+                'seasonId': 'ID mùa',
+                'liked': 'Lượt thích',
+                'lastLoginAt': 'Đăng nhập lần cuối',
+                'csRank': 'Hạng CS',
+                'csRankingPoints': 'Điểm CS',
+                'weaponSkinShows': 'Trang phục vũ khí',
+                'pinId': 'ID Ghim',
+                'maxRank': 'Hạng tối đa',
+                'csMaxRank': 'Hạng CS tối đa',
+                'gameBagShow': 'Túi đồ chơi',
+                'accountPrefers': 'Tùy chọn tài khoản',
+                'createAt': 'Ngày tạo',
+                'title': 'Danh hiệu',
+                'externalIconInfo': 'Thông tin biểu tượng',
+                'status': 'Trạng thái',
+                'showType': 'Loại hiển thị',
+                'releaseVersion': 'Phiên bản',
+                'showBrRank': 'Hiển thị hạng BR',
+                'showCsRank': 'Hiển thị hạng CS',
+                'rankSort': 'Sắp xếp hạng BR',
+                'csRankSort': 'Sắp xếp hạng CS',
+                'badgeInfo': 'Thông tin huy hiệu',
+                'badgeType': 'Loại huy hiệu',
+                'subType': 'Loại phụ',
+                'primePrivilegeDetail': 'Chi tiết Prime',
+                'primeLevel': 'Cấp độ Prime',
+                'csPeakPoints': 'Điểm đỉnh CS',
+                'workshopSummaryInfo': 'Thông tin Workshop',
+                'creatorLevel': 'Cấp độ sáng tạo',
+                'privilegeSwitches': 'Công tắc đặc quyền',
+                'showEmulatorFlag': 'Hiển thị cờ giả lập',
+                'profileInfo': 'Thông tin hồ sơ',
+                'avatarId': 'ID Avatar',
+                'equipedSkills': 'Kỹ năng trang bị',
+                'pvePrimaryWeapon': 'Vũ khí chính PvE',
+                'endTime': 'Thời gian kết thúc',
+                'clanBasicInfo': 'Thông tin Bang hội',
+                'clanId': 'ID Bang hội',
+                'clanName': 'Tên Bang hội',
+                'captainId': 'ID Thủ lĩnh',
+                'clanLevel': 'Cấp độ Bang hội',
+                'capacity': 'Sức chứa',
+                'memberNum': 'Số thành viên',
+                'captainBasicInfo': 'Thông tin Thủ lĩnh',
+                'petInfo': 'Thông tin Thú cưng',
+                'id': 'ID',
+                'name': 'Tên',
+                'isSelected': 'Đã chọn',
+                'skinId': 'ID Skin',
+                'selectedSkillId': 'ID Kỹ năng đã chọn',
+                'socialInfo': 'Thông tin xã hội',
+                'gender': 'Giới tính',
+                'language': 'Ngôn ngữ',
+                'signature': 'Chữ ký',
+                'rankShow': 'Hiển thị xếp hạng',
+                'diamondCostRes': 'Chi phí Kim cương',
+                'diamondCost': 'Giá Kim cương',
+                'creditScoreInfo': 'Thông tin điểm tín dụng',
+                'creditScore': 'Điểm tín dụng',
+                'rewardState': 'Trạng thái phần thưởng',
+                'periodicSummaryEndTime': 'Thời gian kết thúc tổng kết',
+                'periodicSummaryLevel': 'Cấp độ tổng kết',
+                'Gender_MALE': 'Nam',
+                'Gender_FEMALE': 'Nữ',
+                'Language_INDONESIAN': 'Tiếng Indonesia',
+                'Language_ENGLISH': 'Tiếng Anh',
+                'Language_VIETNAMESE': 'Tiếng Việt',
+                'Language_THAI': 'Tiếng Thái',
+                'Language_MALAY': 'Tiếng Mã Lai',
+                'Language_CHINESE': 'Tiếng Trung',
+                'RankShow_BR': 'Xếp hạng BR',
+                'RankShow_CS': 'Xếp hạng CS',
+                'REWARD_STATE_UNCLAIMED': 'Chưa nhận',
+                'REWARD_STATE_CLAIMED': 'Đã nhận',
+                'ExternalIconStatus_IN_USE': 'Đang sử dụng',
+                'ExternalIconStatus_NOT_IN_USE': 'Không sử dụng',
+                'ExternalIconShowType_FRIEND': 'Bạn bè',
+                'ExternalIconShowType_ALL': 'Tất cả'
+            };
+
+            // ---- Hàm dịch ----
+            function translateObject(obj) {
+                if (obj === null || obj === undefined) return obj;
+                if (typeof obj === 'string') {
+                    return translationDict[obj] || obj;
+                }
+                if (typeof obj === 'boolean' || typeof obj === 'number') {
+                    return obj;
+                }
+                if (Array.isArray(obj)) {
+                    return obj.map(item => translateObject(item));
+                }
+                if (typeof obj === 'object') {
+                    const result = {};
+                    for (const [key, value] of Object.entries(obj)) {
+                        const translatedKey = translationDict[key] || key;
+                        result[translatedKey] = translateObject(value);
+                    }
+                    return result;
+                }
+                return obj;
+            }
+
+            // ---- Hàm tô màu JSON ----
+            function syntaxHighlight(json) {
+                if (typeof json !== 'string') {
+                    json = JSON.stringify(json, null, 2);
+                }
+                json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                return json.replace(
+                    /("(?:[^"\\]|\\.)*")(?=\s*:)|("(?:[^"\\]|\\.)*")|(\b\d+\.?\d*\b)|(\btrue\b|\bfalse\b|\bnull\b)/g,
+                    function(match, key, str, num, bool) {
+                        if (key) return `<span class="key">${key}</span>`;
+                        if (str) return `<span class="string">${str}</span>`;
+                        if (num) return `<span class="number">${num}</span>`;
+                        if (bool) return `<span class="boolean">${bool}</span>`;
+                        return match;
+                    }
+                );
+            }
+
+            // ---- UID: build URL ----
+            function buildApiUrl(uid, region) {
+                return `https://xeoms-info.vercel.app/info?uid=${encodeURIComponent(uid)}&region=${encodeURIComponent(region)}`;
+            }
+
+            // ---- UID: hiển thị dữ liệu ----
+            function displayData(data, translated = false) {
+                const displayData = translated ? translateObject(data) : data;
+                const prettyJson = JSON.stringify(displayData, null, 2);
+                jsonOutput.innerHTML = syntaxHighlight(prettyJson);
+                isTranslated = translated;
+            }
+
+            // ---- UID: fetch dữ liệu ----
+            async function fetchData(uid, region) {
+                const url = buildApiUrl(uid, region);
+                jsonOutput.innerHTML = `<div class="loading">⏳ Đang tải dữ liệu ...</div>`;
+                translateBtn.disabled = true;
+
+                try {
+                    const response = await fetch(url);
+                    
+                    if (!response.ok) {
+                        if (response.status === 404) {
+                            throw new Error('Không tìm thấy dữ liệu. Vui lòng kiểm tra lại UID.');
+                        } else if (response.status === 500) {
+                            throw new Error('Lỗi máy chủ. Vui lòng thử lại sau.');
+                        } else {
+                            throw new Error(`Lỗi kết nối (Mã: ${response.status}). Vui lòng thử lại.`);
+                        }
+                    }
+
+                    const data = await response.json();
+                    
+                    if (!data || Object.keys(data).length === 0) {
+                        throw new Error('Không tìm thấy thông tin người chơi.');
+                    }
+
+                    currentData = data;
+                    displayData(data, false);
+                    translateBtn.disabled = false;
+                    
+                } catch (error) {
+                    console.error('Fetch error:', error);
+                    let errorMsg = error.message;
+                    
+                    if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+                        errorMsg = '❌ Không thể kết nối đến máy chủ. Vui lòng kiểm tra kết nối mạng hoặc thử lại sau.';
+                    }
+                    
+                    jsonOutput.innerHTML = `<div class="error-message">${errorMsg}</div>`;
+                    translateBtn.disabled = true;
+                    currentData = null;
+                }
+            }
+
+            // ---- UID: xử lý tra cứu ----
+            function handleSearch() {
+                let uid = uidInput.value.trim();
+                if (!uid) {
+                    jsonOutput.innerHTML = `<div class="error-message">⚠️ Vui lòng nhập UID hợp lệ.</div>`;
+                    return;
+                }
+                if (!/^\d+$/.test(uid)) {
+                    jsonOutput.innerHTML = `<div class="error-message">⚠️ UID chỉ được chứa chữ số. Vui lòng nhập lại.</div>`;
+                    return;
+                }
+                const region = regionSelect.value;
+                fetchData(uid, region);
+            }
+
+            // ---- UID: xử lý dịch ----
+            function handleTranslate() {
+                if (!currentData) {
+                    jsonOutput.innerHTML = `<div class="error-message">⚠️ Không có dữ liệu để dịch. Vui lòng tra cứu trước.</div>`;
+                    return;
+                }
+                
+                try {
+                    if (isTranslated) {
+                        displayData(currentData, false);
+                        translateBtn.textContent = '🌐 Dịch sang tiếng Việt';
+                    } else {
+                        displayData(currentData, true);
+                        translateBtn.textContent = '🔄 Hiển thị gốc';
+                    }
+                } catch (error) {
+                    console.error('Translation error:', error);
+                    jsonOutput.innerHTML = `<div class="error-message">❌ Lỗi khi dịch dữ liệu: ${error.message}</div>`;
+                }
+            }
+
+            // ============================================================
+            // ===== PHẦN ICON - CÁCH TIẾP CẬN MỚI =====
+            // ============================================================
+
+            /**
+             * Hiển thị Icon bằng cách tạo trực tiếp thẻ <img> với src là URL API.
+             * Cách này tránh được lỗi CORS, network và không lưu ảnh.
+             */
+            function displayIcon(itemId) {
+                // Xóa nội dung cũ, hiển thị trạng thái loading
+                iconDisplay.innerHTML = `<div class="loading">⏳ Đang tải Icon ...</div>`;
+
+                // Kiểm tra ID hợp lệ
+                if (!itemId || !/^\d+$/.test(itemId)) {
+                    iconDisplay.innerHTML = `<div class="error-message">⚠️ ID Item không hợp lệ. Vui lòng nhập số.</div>`;
+                    return;
+                }
+
+                // Tạo URL icon
+                const iconUrl = `https://dl-freefiredth-icons.onrender.com/ff/images/${encodeURIComponent(itemId)}`;
+
+                // Tạo thẻ img và xử lý sự kiện load/error
+                const img = document.createElement('img');
+                img.src = iconUrl;
+                img.alt = `Icon ${itemId}`;
+                img.style.maxWidth = '100%';
+                img.style.maxHeight = '400px';
+                img.style.objectFit = 'contain';
+                img.style.borderRadius = '16px';
+                img.style.background = '#141c2e';
+                img.style.padding = '10px';
+                img.style.boxShadow = '0 8px 24px rgba(0,0,0,0.5)';
+
+                // Xóa loading và hiển thị ảnh khi load thành công
+                img.onload = function() {
+                    iconDisplay.innerHTML = ''; // Xóa loading
+                    iconDisplay.appendChild(img);
+                    
+                    // Thêm ID bên dưới
+                    const idLabel = document.createElement('div');
+                    idLabel.className = 'icon-id';
+                    idLabel.textContent = `📌 ID: ${itemId}`;
+                    iconDisplay.appendChild(idLabel);
+                };
+
+                // Xử lý lỗi tải ảnh
+                img.onerror = function() {
+                    iconDisplay.innerHTML = `
+                        <div class="error-message">
+                            ❌ Không tìm thấy Icon với ID: ${itemId}.<br>
+                            <span style="font-size: 0.9rem; color: #7e8aa8;">Vui lòng kiểm tra lại ID hoặc thử ID khác.</span>
+                        </div>
+                    `;
+                };
+
+                // Thêm ảnh vào hiển thị (sẽ được thay thế khi load xong)
+                iconDisplay.innerHTML = ''; // Xóa loading
+                iconDisplay.appendChild(img);
+                
+                // Thêm ID tạm thời (sẽ được cập nhật lại khi load xong)
+                const tempId = document.createElement('div');
+                tempId.className = 'icon-id';
+                tempId.textContent = `📌 ID: ${itemId} (đang tải...)`;
+                tempId.style.opacity = '0.6';
+                iconDisplay.appendChild(tempId);
+            }
+
+            function handleIconSearch() {
+                let itemId = iconInput.value.trim();
+                if (!itemId) {
+                    iconDisplay.innerHTML = `<div class="error-message">⚠️ Vui lòng nhập ID Item.</div>`;
+                    return;
+                }
+                if (!/^\d+$/.test(itemId)) {
+                    iconDisplay.innerHTML = `<div class="error-message">⚠️ ID Item chỉ được chứa chữ số.</div>`;
+                    return;
+                }
+                displayIcon(itemId);
+            }
+
+            // ============================================================
+            // ===== GÁN SỰ KIỆN =====
+            // ============================================================
+
+            // UID
+            fetchBtn.addEventListener('click', handleSearch);
+            translateBtn.addEventListener('click', handleTranslate);
+            uidInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    handleSearch();
+                }
+            });
+
+            // ICON
+            fetchIconBtn.addEventListener('click', handleIconSearch);
+            iconInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    handleIconSearch();
+                }
+            });
+
+            // ============================================================
+            // ===== TỰ ĐỘNG TẢI KHI MỞ TRANG =====
+            // ============================================================
+
+            window.addEventListener('load', () => {
+                // Tự động tải UID mặc định
+                const defaultUid = uidInput.value.trim() || '26408047';
+                const defaultRegion = regionSelect.value;
+                fetchData(defaultUid, defaultRegion);
+
+                // Tự động tải Icon mặc định
+                const defaultIcon = iconInput.value.trim() || '710049012';
+                if (defaultIcon) {
+                    displayIcon(defaultIcon);
+                }
+            });
+
+        })();
+    </script>
+</body>
+</html>ml>
+</html>ml>
