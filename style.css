@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'GFF Latin';
+    src: local('GFF Latin Bold'), local('GFF-Latin-Bold'),
+        url('GFF-Latin-Bold.woff2') format('woff2'),
+        url('GFF-Latin-Bold.woff') format('woff'),
+        url('GFF-Latin-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+  }
