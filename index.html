@@ -3,7 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XEoms Stalk - Tra cứu thông tin & Icon</title>
+    
+    <!-- ===== SEO ===== -->
+    <title>FFVN.TGM - Công Cụ Tra Cứu Thông Tin</title>
+    <meta name="description" content="FFVN TGM ‐ Công Cụ Tra Cứu Thông Tin chính xác 89%,tra cứu thông tin nhanh chóng và nhiều sever khác nhau mỗi lần tìm,và có nút dịch tiếng Việt cho bạn dễ hiểu.">
+    
+    <!-- Favicon | Icon tab · 32×32 ICO/PNG -->
+    <link rel="icon" type="image/png" sizes="32x32" href="https://cdn.phototourl.com/free/2026-07-22-a87a09e5-ecab-46a2-8034-56cb8bcff4ed.jpg">
+    <link rel="shortcut icon" type="image/png" sizes="32x32" href="https://cdn.phototourl.com/free/2026-07-22-a87a09e5-ecab-46a2-8034-56cb8bcff4ed.jpg">
+    
+    <!-- Open Graph / Google Preview -->
+    <meta property="og:title" content="FFVN.TGM - Công Cụ Tra Cứu Thông Tin">
+    <meta property="og:description" content="FFVN TGM ‐ Công Cụ Tra Cứu Thông Tin chính xác 89%,tra cứu thông tin nhanh chóng và nhiều sever khác nhau mỗi lần tìm,và có nút dịch tiếng Việt cho bạn dễ hiểu.">
+    <meta property="og:url" content="https://tra-cuu-info.vercel.app/">
+    <meta property="og:type" content="website">
+    
     <style>
         * {
             margin: 0;
@@ -32,24 +46,86 @@
             height: fit-content;
         }
 
-        h1 {
-            font-size: 2.2rem;
-            font-weight: 600;
-            letter-spacing: 1px;
+        /* ===== NAVBAR ===== */
+        .navbar {
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: space-between;
             border-bottom: 2px solid #2f3b52;
             padding-bottom: 1rem;
             margin-bottom: 1.8rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .navbar-logo {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            object-fit: cover;
+            background: #1e2535;
+            padding: 3px;
+            border: 1px solid #2f3b52;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .navbar-title {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
             color: #b7c9f0;
         }
 
-        h1 small {
-            font-size: 0.9rem;
+        .navbar-subtitle {
+            font-size: 0.85rem;
             font-weight: 400;
             color: #7e8aa8;
+        }
+
+        /* ===== HERO ===== */
+        .hero-section {
+            text-align: center;
+            padding: 1rem 0 1.8rem;
+            border-bottom: 2px solid #2f3b52;
+            margin-bottom: 1.8rem;
+        }
+
+        .hero-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            object-fit: cover;
+            background: #1e2535;
+            padding: 6px;
+            border: 2px solid #4a6bb5;
+            box-shadow: 0 6px 20px rgba(74, 107, 181, 0.4);
+            margin-bottom: 1rem;
+        }
+
+        .hero-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #b7c9f0 0%, #5f7fc9 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+        }
+
+        .hero-description {
+            font-size: 1rem;
+            color: #8899bb;
+            margin-top: 0.5rem;
+            max-width: 600px;
             margin-left: auto;
+            margin-right: auto;
+            line-height: 1.5;
         }
 
         .search-box {
@@ -322,12 +398,22 @@
                 width: 100%;
                 justify-content: center;
             }
-            h1 {
-                font-size: 1.6rem;
-                flex-wrap: wrap;
+            .navbar-brand {
+                gap: 8px;
             }
-            h1 small {
-                margin-left: 0;
+            .navbar-title {
+                font-size: 1.5rem;
+            }
+            .hero-title {
+                font-size: 2rem;
+            }
+            .hero-logo {
+                width: 60px;
+                height: 60px;
+            }
+            .navbar-logo {
+                width: 34px;
+                height: 34px;
             }
             .info-panel .header-actions {
                 flex-direction: column;
@@ -353,10 +439,25 @@
 </head>
 <body>
     <div class="container">
-        <h1>
-            🛰️ XEoms Stalk
-            <small>Tra cứu thông tin</small>
-        </h1>
+        <!-- ===== NAVBAR ===== -->
+        <div class="navbar">
+            <div class="navbar-brand">
+                <img src="https://cdn.phototourl.com/free/2026-07-22-a87a09e5-ecab-46a2-8034-56cb8bcff4ed.jpg" alt="FFVN.TGM Logo" class="navbar-logo" loading="lazy">
+                <div>
+                    <div class="navbar-title">FFVN.TGM</div>
+                    <div class="navbar-subtitle">Tra cứu thông tin</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== HERO ===== -->
+        <div class="hero-section">
+            <img src="https://cdn.phototourl.com/free/2026-07-22-a87a09e5-ecab-46a2-8034-56cb8bcff4ed.jpg" alt="FFVN.TGM Logo Hero" class="hero-logo" loading="lazy">
+            <h1 class="hero-title">FFVN.TGM</h1>
+            <p class="hero-description">
+                Công Cụ Tra Cứu Thông Tin chính xác 89%, tra cứu thông tin nhanh chóng và nhiều sever khác nhau mỗi lần tìm, và có nút dịch tiếng Việt cho bạn dễ hiểu.
+            </p>
+        </div>
 
         <!-- ===== PHẦN TRA CỨU UID ===== -->
         <div class="search-box">
@@ -666,27 +767,19 @@
             }
 
             // ============================================================
-            // ===== PHẦN ICON - CÁCH TIẾP CẬN MỚI =====
+            // ===== PHẦN ICON =====
             // ============================================================
 
-            /**
-             * Hiển thị Icon bằng cách tạo trực tiếp thẻ <img> với src là URL API.
-             * Cách này tránh được lỗi CORS, network và không lưu ảnh.
-             */
             function displayIcon(itemId) {
-                // Xóa nội dung cũ, hiển thị trạng thái loading
                 iconDisplay.innerHTML = `<div class="loading">⏳ Đang tải Icon ...</div>`;
 
-                // Kiểm tra ID hợp lệ
                 if (!itemId || !/^\d+$/.test(itemId)) {
                     iconDisplay.innerHTML = `<div class="error-message">⚠️ ID Item không hợp lệ. Vui lòng nhập số.</div>`;
                     return;
                 }
 
-                // Tạo URL icon
                 const iconUrl = `https://dl-freefiredth-icons.onrender.com/ff/images/${encodeURIComponent(itemId)}`;
 
-                // Tạo thẻ img và xử lý sự kiện load/error
                 const img = document.createElement('img');
                 img.src = iconUrl;
                 img.alt = `Icon ${itemId}`;
@@ -698,19 +791,16 @@
                 img.style.padding = '10px';
                 img.style.boxShadow = '0 8px 24px rgba(0,0,0,0.5)';
 
-                // Xóa loading và hiển thị ảnh khi load thành công
                 img.onload = function() {
-                    iconDisplay.innerHTML = ''; // Xóa loading
+                    iconDisplay.innerHTML = '';
                     iconDisplay.appendChild(img);
                     
-                    // Thêm ID bên dưới
                     const idLabel = document.createElement('div');
                     idLabel.className = 'icon-id';
                     idLabel.textContent = `📌 ID: ${itemId}`;
                     iconDisplay.appendChild(idLabel);
                 };
 
-                // Xử lý lỗi tải ảnh
                 img.onerror = function() {
                     iconDisplay.innerHTML = `
                         <div class="error-message">
@@ -720,11 +810,9 @@
                     `;
                 };
 
-                // Thêm ảnh vào hiển thị (sẽ được thay thế khi load xong)
-                iconDisplay.innerHTML = ''; // Xóa loading
+                iconDisplay.innerHTML = '';
                 iconDisplay.appendChild(img);
                 
-                // Thêm ID tạm thời (sẽ được cập nhật lại khi load xong)
                 const tempId = document.createElement('div');
                 tempId.className = 'icon-id';
                 tempId.textContent = `📌 ID: ${itemId} (đang tải...)`;
@@ -749,7 +837,6 @@
             // ===== GÁN SỰ KIỆN =====
             // ============================================================
 
-            // UID
             fetchBtn.addEventListener('click', handleSearch);
             translateBtn.addEventListener('click', handleTranslate);
             uidInput.addEventListener('keypress', (e) => {
@@ -759,7 +846,6 @@
                 }
             });
 
-            // ICON
             fetchIconBtn.addEventListener('click', handleIconSearch);
             iconInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {
@@ -773,12 +859,10 @@
             // ============================================================
 
             window.addEventListener('load', () => {
-                // Tự động tải UID mặc định
                 const defaultUid = uidInput.value.trim() || '26408047';
                 const defaultRegion = regionSelect.value;
                 fetchData(defaultUid, defaultRegion);
 
-                // Tự động tải Icon mặc định
                 const defaultIcon = iconInput.value.trim() || '710049012';
                 if (defaultIcon) {
                     displayIcon(defaultIcon);
@@ -788,5 +872,4 @@
         })();
     </script>
 </body>
-</html>ml>
-</html>ml>
+</html>
